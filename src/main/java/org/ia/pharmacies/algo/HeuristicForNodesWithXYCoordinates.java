@@ -54,15 +54,13 @@ public class HeuristicForNodesWithXYCoordinates implements Function<Pharmacie, D
   private static double calculateSpeed(
       ValueGraph<Pharmacie, Double> graph, EndpointPair<Pharmacie> edge) {
     double euclideanDistance = calculateEuclideanDistance(edge.nodeU(), edge.nodeV());
-    double cost =
-        graph.edgeValue(edge).orElseThrow(() -> new IllegalArgumentException("Graph is empty"));
+    double cost = graph.edgeValue(edge).orElseThrow(() -> new IllegalArgumentException("Graph is empty"));
     double speed = euclideanDistance / cost;
 
     return speed;
   }
 
-  public static double calculateEuclideanDistance(
-      Pharmacie source, Pharmacie target) {
+  public static double calculateEuclideanDistance(Pharmacie source, Pharmacie target) {
     double distanceX = target.getX() - source.getX();
     double distanceY = target.getY() - source.getY();
     return Math.sqrt(distanceX * distanceX + distanceY * distanceY);

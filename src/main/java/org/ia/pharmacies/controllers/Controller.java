@@ -7,26 +7,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ia.pharmacies.algo.Graph;
+
 /**
  * Servlet implementation class Controller
  */
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private Graph graph;
 
-    /**
-     * Default constructor. 
-     */
     public Controller() {
-        // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public void init() throws ServletException {
+    	graph = new Graph();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+			if(request.getParameter("source")!=null && request.getParameter("target")!=null) {
+				
+				String source =request.getParameter("source");
+				String target=request.getParameter("target");
+				System.out.println("hvhfez");
+			}
 	}
 
 	/**

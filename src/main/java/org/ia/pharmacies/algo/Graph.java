@@ -1,7 +1,6 @@
 package org.ia.pharmacies.algo;
 
 import com.google.common.graph.MutableValueGraph;
-import com.google.common.graph.ValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 
 import java.io.BufferedReader;
@@ -17,62 +16,68 @@ public class Graph {
 	 
 	private MutableValueGraph<Pharmacie, Double> graph;
 	private Map<String, Pharmacie> pharmacies;
-	private String pharmacieFile;
-	private String cout;
 	
 	public Graph() {
-		ValueGraph<Pharmacie, Double> graph = createSampleGraph();
-		Map<String, Pharmacie> nodeByName = createNodeByNameMap(graph);
-//		findAndPrintShortestPath(graph, nodeByName.get("D"), nodeByName.get("H"));
+		graph = createSampleGraph();
+		pharmacies = createNodeByNameMap();	
 		
+		addPharmacies();
+		addEdgeValue();
 	}
-
-	public ValueGraph<Pharmacie, Double> createSampleGraph() {
+	
+	public Map<String, Pharmacie> getPharmacies() {
+		return pharmacies;
+	}
+	
+	public MutableValueGraph<Pharmacie, Double> createSampleGraph() {
 		MutableValueGraph<Pharmacie, Double> graph = ValueGraphBuilder.undirected().build();
-		getPharmacies();
-		getEdgeValue();
-
 		return graph;
 	}
-	
-	
-	
-	public void getPharmacies() {
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(source));
-			String row = in.readLine();
-			while (row != null) {
-				String t[] = row.split(";");
-				builder.buildPart2(t);
-				builder.buildPart3(filter);
-				row = in.readLine();
-			}
-			in.close();
-			builder.buildPart4();
-			return builder.getResult();
-		} catch (Exception e) {
-			System.out.println("Erreur : " + e.getMessage());
-			return null;
-		}
-		
-		Pharmacie a = new Pharmacie("A", 2_410, 6_230);
-	}
-	
-	
-	public void getEdgeValue() {
-		graph.putEdgeValue(a, c, 2.0);
-	}
-
-	
-	
 	
 	public Map<String, Pharmacie> createNodeByNameMap() {
 		return graph.nodes().stream().collect(Collectors.toMap(Pharmacie::getName, Function.identity()));
 	}
 
-	public void findAndPrintShortestPath(Pharmacie source,Pharmacie target) {
+	public void findAndPrintShortestPath(String s,String t) {
+		Pharmacie  source =pharmacies.get(s);
+		Pharmacie  target =pharmacies.get(t);
 		Function<Pharmacie, Double> heuristic = new HeuristicForNodesWithXYCoordinates(graph, target);
 		List<Pharmacie> shortestPath = AStarWithTreeSet.findShortestPath(graph, source, target, heuristic);
-		System.out.println("shortestPath from {} to {} = {}" + source + target + shortestPath);
+		System.out.println("shortestPath from: "+ source  +" to: " + target + "=>  " + shortestPath);
 	}
+	
+	
+	
+	public void addPharmacies() {
+		try {
+			BufferedReader in = new BufferedReader(new FileReader("resources/pharmacies.txt"));
+			String row = in.readLine();
+			while (row != null) {
+				String t[] = row.split(";");
+				Pharmacie a = new Pharmacie(t[0], Double.parseDouble(t[1]), Double.parseDouble(t[2]));
+				pharmacies.put(t[0], a);
+				row = in.readLine();
+			}
+			in.close();
+		} catch (Exception e) {
+			System.out.println("Erreur : " + e.getMessage());
+		}
+	}
+	
+	
+	public void addEdgeValue() {
+		try {
+			BufferedReader in = new BufferedReader(new FileReader("resources/cost.txt"));
+			String row = in.readLine();
+			while (row != null) {
+				String t[] = row.split(";");
+				graph.putEdgeValue(pharmacies.get(t[0]),pharmacies.get(t[1]), Double.parseDouble(t[2]));
+				row = in.readLine();
+			}
+			in.close();
+		} catch (Exception e) {
+			System.out.println("Erreur : " + e.getMessage());
+		}
+	}
+
 }
