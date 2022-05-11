@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Locate the user</title>
+<meta name="viewport"
+	content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css"
+	rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
+</style>
+</head>
+<body>
+	<style>
+#filter-ctrl1 {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 1;
+	padding-top: 40px;
+}
+
+#filter-ctrl2 {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 1;
+	padding-top: 90px;
+}
+
+.filter-ctrl input[type='text'] {
+	font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	width: 100%;
+	border: 0;
+	background-color: #fff;
+	margin: 0;
+	color: rgba(0, 0, 0, 0.5);
+	padding: 10px;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	width: 180px;
+}
+</style>
+
+
+	<div id="map"></div>
+
+	<div class="filter-ctrl" id="filter-ctrl1">
+		<input id="filter-input" type="text" name="pharmacie-source"
+			placeholder="Pharmacie source">
+		<input id="filter-input" type="text" name="pharmacie-destination"
+			placeholder="Pharmacie destination">
+	</div>
+
+	<div class="filter-ctrl" id="filter-ctrl2">
+		<button id="filter-input" type="button" onclick="chemin()" >Chercher chemin</button>
+	</div>
+
+	<script type="text/javascript" src="js/mapbox.js"></script>
+</body>
+</html>
