@@ -25,6 +25,12 @@ public class Graph {
 		addEdgeValue();
 	}
 	
+	public static void main(String[] args) {
+		Graph g = new Graph();
+		g.findAndPrintShortestPath("Pharmacie ILYA", "Pharmacie Ravin");
+
+		
+	}
 	public Map<String, Pharmacie> getPharmacies() {
 		return pharmacies;
 	}
@@ -38,19 +44,20 @@ public class Graph {
 		return graph.nodes().stream().collect(Collectors.toMap(Pharmacie::getName, Function.identity()));
 	}
 
-	public void findAndPrintShortestPath(String s,String t) {
+	public List<Pharmacie> findAndPrintShortestPath(String s,String t) {
 		Pharmacie  source =pharmacies.get(s);
 		Pharmacie  target =pharmacies.get(t);
 		Function<Pharmacie, Double> heuristic = new HeuristicForNodesWithXYCoordinates(graph, target);
 		List<Pharmacie> shortestPath = AStarWithTreeSet.findShortestPath(graph, source, target, heuristic);
 		System.out.println("shortestPath from: "+ source  +" to: " + target + "=>  " + shortestPath);
+		return shortestPath;
 	}
 	
 	
 	
 	public void addPharmacies() {
 		try {
-			BufferedReader in = new BufferedReader(new FileReader("resources/pharmacies.txt"));
+			BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\Ahmed\\OneDrive\\Bureau\\IA\\Project-IA\\src\\main\\webapp\\WEB-INF\\resources\\pharmacies.txt"));
 			String row = in.readLine();
 			while (row != null) {
 				String t[] = row.split(";");
@@ -63,11 +70,11 @@ public class Graph {
 			System.out.println("Erreur : " + e.getMessage());
 		}
 	}
-	
+
 	
 	public void addEdgeValue() {
 		try {
-			BufferedReader in = new BufferedReader(new FileReader("resources/cost.txt"));
+			BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\Ahmed\\OneDrive\\Bureau\\IA\\Project-IA\\src\\main\\webapp\\WEB-INF\\resources\\cost.txt"));
 			String row = in.readLine();
 			while (row != null) {
 				String t[] = row.split(";");
